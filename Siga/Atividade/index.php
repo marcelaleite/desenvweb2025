@@ -1,3 +1,8 @@
+<?php
+
+include "atividade.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,13 +16,13 @@
         <fieldset>
             <legend>Formulário</legend>
             <label for="id">Id:</label>
-            <input type="text" name="id" readonly >
+            <input type="text" name="id" readonly value=<?= isset($atividade)?$atividade['id']:0?>>
             <label for="descricao">Descricao:</label>
-            <input type="text" name="descricao">
+            <input type="text" name="descricao" value=<?= isset($atividade)?$atividade['descricao']:''?>>
             <label for="peso">Peso:</label>
-            <input type="text" name="peso">
+            <input type="text" name="peso" value=<?= isset($atividade)?$atividade['peso']:0?>>
             <label for="anexo">Anexo:</label>
-            <input type="text" name="anexo">
+            <input type="text" name="anexo" value=<?= isset($atividade)?$atividade['anexo']:''?>>
             <button type="submit" name="salvar" value="salvar">Salvar</button>
         </fieldset>
     </form>
@@ -33,7 +38,7 @@
           
             $lista = Atividade::listar();
             foreach($lista as $atividade){
-                echo "<tr><td>{$atividade['id']}</td><td>{$atividade['descricao']}</td><td>{$atividade['peso']}</td><td>{$atividade['anexo']}</td></tr>";
+                echo "<tr><td><a href='index.php?id={$atividade['id']}'>{$atividade['id']}</a></td><td>{$atividade['descricao']}</td><td>{$atividade['peso']}</td><td>{$atividade['anexo']}</td></tr>";
             }
         ?>
     </table>

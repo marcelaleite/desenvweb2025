@@ -18,5 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         header("Location: index.php");
     else
         echo "Erro ao salvar dados: ". $atividade;
+}elseif ($_SERVER['REQUEST_METHOD'] == 'GET'){
+
+    $id = isset($_GET['id'])?$_GET['id']:0;
+    $resultado = Atividade::listar(1,$id);
+    if ($resultado)
+        $atividade = $resultado[0];
+
 }
 ?>

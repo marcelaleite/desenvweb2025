@@ -80,16 +80,24 @@ class Atividade{
         return $comando->execute();
     }
 
-    public static function listar():Array{
+    public static function listar($tipo=0, $info=''):Array{
         
         //abrir conexão com o banco
         $conexao = new PDO(DSN, USUARIO, SENHA);
         // montar o sql/ query
         $sql = "SELECT * FROM atividade";
+        if ($tipo > 0){
+            switch ($tipo){
+                case 1: $sql .= " WHERE id = :info ORDER BY id"; break; // filtro por ID
+                case 2: $sql .= " WHERE descricao like :info ORDER BY descricao"; $info = '%'.$info.'%'; break; // filtro por descrição
+            }
+        }
+
         // preparou o comando
         $comando = $conexao->prepare($sql);
         // vincula valores
-        
+        if ($tipo > 0)
+            $comando->bindValue(':info',$info);
         // executar o comando
         $comando->execute();
         $resultado = $comando->fetchAll();
