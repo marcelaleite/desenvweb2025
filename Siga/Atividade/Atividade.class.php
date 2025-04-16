@@ -105,9 +105,39 @@ class Atividade{
     }
 
     public function alterar():Bool{
-        return true;
+       //abrir conexão com o banco
+       $conexao = new PDO(DSN, USUARIO, SENHA);
+       // montar o sql/ query
+       $sql = "UPDATE atividade
+                  SET descricao = :descricao, 
+                      peso = :peso,
+                      anexo = :anexo
+                WHERE id = :id";
+       // preparou o comando
+       $comando = $conexao->prepare($sql);
+       // vincula valores
+       $comando->bindValue(':id',$this->getid());
+       $comando->bindValue(':descricao',$this->getDescricao());
+       $comando->bindValue(':peso',$this->getPeso());
+       $comando->bindValue(':anexo',$this->getAnexo());
+       // executar o comando
+       return $comando->execute();
     }
 
+    public function excluir():Bool{
+        //abrir conexão com o banco
+        $conexao = new PDO(DSN, USUARIO, SENHA);
+        // montar o sql/ query
+        $sql = "DELETE FROM atividade
+                      WHERE id = :id";
+        // preparou o comando
+        $comando = $conexao->prepare($sql);
+        // vincula valores
+        $comando->bindValue(':id',$this->getid());
+        // executar o comando
+        return $comando->execute();
+     }
+ 
 }
 
 ?>

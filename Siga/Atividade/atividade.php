@@ -6,13 +6,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $descricao = isset($_POST['descricao'])?$_POST['descricao']:"";
     $peso = isset($_POST['peso'])?$_POST['peso']:0;
     $anexo = isset($_POST['anexo'])?$_POST['anexo']:"";
+    $acao = isset($_POST['acao'])?$_POST['acao']:"";
 
     $atividade = new Atividade($id,$descricao,$peso,$anexo);
-
-    if ($id > 0)
-        $resultado = $atividade->alterar();
+    if ($acao == 'salvar')
+        if ($id > 0)
+            $resultado = $atividade->alterar();
+        else
+            $resultado = $atividade->inserir();
     else
-        $resultado = $atividade->inserir();
+        $resultado = $atividade->excluir();
 
     if ($resultado)
         header("Location: index.php");

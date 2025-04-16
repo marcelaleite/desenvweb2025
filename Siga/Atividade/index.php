@@ -23,7 +23,9 @@ include "atividade.php";
             <input type="text" name="peso" value=<?= isset($atividade)?$atividade['peso']:0?>>
             <label for="anexo">Anexo:</label>
             <input type="text" name="anexo" value=<?= isset($atividade)?$atividade['anexo']:''?>>
-            <button type="submit" name="salvar" value="salvar">Salvar</button>
+            <button type="submit" name="acao" value="salvar">Salvar</button>
+            <button type="submit" name="acao" value="excluir">Excluir</button>
+            <button type="reset" name="acao" value="cancel">Cancelar</button>
         </fieldset>
     </form>
     <!-- Listagem -->
