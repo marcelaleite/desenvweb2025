@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             $resultado = $atividade->alterar();
         else
             $resultado = $atividade->inserir();
-    else
+    elseif ($acao == 'excluir')
         $resultado = $atividade->excluir();
 
     if ($resultado)
@@ -27,6 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $resultado = Atividade::listar(1,$id);
     if ($resultado)
         $atividade = $resultado[0];
+
+
+    $busca = isset($_GET['busca'])?$_GET['busca']:0;
+    $tipo = isset($_GET['tipo'])?$_GET['tipo']:0;
+   
+    $lista = Atividade::listar($tipo, $busca);
 
 }
 ?>

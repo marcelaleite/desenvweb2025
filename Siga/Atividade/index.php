@@ -1,6 +1,5 @@
 <?php
-
-include "atividade.php";
+    include "atividade.php";
 ?>
 
 <!DOCTYPE html>
@@ -28,6 +27,23 @@ include "atividade.php";
             <button type="reset" name="acao" value="cancel">Cancelar</button>
         </fieldset>
     </form>
+    <!-- Filtro -->
+
+    <form action="index.php" method="GET">
+        <fieldset>
+            <legend>Busca</legend>
+            <label for="busca">Busca</label>
+            <input type="text" name="busca">
+            <label for="tipo">Tipo</label>
+            <select name="tipo">
+                <option value="0">Selecione</option>
+                <option value="1">ID</option>
+                <option value="2">Descrição</option>
+            </select>
+            <button type="submit">Buscar</button>
+        </fieldset>
+    </form>
+
     <!-- Listagem -->
     <h1>Listagem de Atividades</h1>
     <table border="1">
@@ -36,9 +52,7 @@ include "atividade.php";
         <th>Peso</th>
         <th>Anexo</th>
         <?php
-            require_once "Atividade.class.php";
-          
-            $lista = Atividade::listar();
+           
             foreach($lista as $atividade){
                 echo "<tr><td><a href='index.php?id={$atividade['id']}'>{$atividade['id']}</a></td><td>{$atividade['descricao']}</td><td>{$atividade['peso']}</td><td>{$atividade['anexo']}</td></tr>";
             }
