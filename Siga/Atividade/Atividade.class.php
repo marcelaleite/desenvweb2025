@@ -1,6 +1,5 @@
 <?php
-
-include "../config/config.inc.php";
+require_once ("Database.class.php");
 class Atividade{
     private $id;
     private $descricao;
@@ -64,78 +63,52 @@ class Atividade{
 
     // insere uma atividade no banco 
     public function inserir():Bool{
-        //abrir conexão com o banco
-        $conexao = new PDO(DSN, USUARIO, SENHA);
         // montar o sql/ query
         $sql = "INSERT INTO atividade 
                     (descricao, peso, anexo)
                     VALUES(:descricao, :peso, :anexo)";
-        // preparou o comando
-        $comando = $conexao->prepare($sql);
-        // vincula valores
-        $comando->bindValue(':descricao',$this->getDescricao());
-        $comando->bindValue(':peso',$this->getPeso());
-        $comando->bindValue(':anexo',$this->getAnexo());
-        // executar o comando
-        return $comando->execute();
+        
+        $parametros = array(':descricao'=>$this->getDescricao(),
+                            ':peso'=>$this->getPeso(),
+                            ':anexo'=>$this->getAnexo());
+        
+        return Database::executar($sql, $parametros) == true;
     }
 
     public static function listar($tipo=0, $info=''):Array{
-        
-        //abrir conexão com o banco
-        $conexao = new PDO(DSN, USUARIO, SENHA);
-        // montar o sql/ query
         $sql = "SELECT * FROM atividade";
-        if ($tipo > 0){
-            switch ($tipo){
-                case 1: $sql .= " WHERE id = :info ORDER BY id"; break; // filtro por ID
-                case 2: $sql .= " WHERE descricao like :info ORDER BY descricao"; $info = '%'.$info.'%'; break; // filtro por descrição
-            }
+        switch ($tipo){
+            case 0: break;
+            case 1: $sql .= " WHERE id = :info ORDER BY id"; break; // filtro por ID
+            case 2: $sql .= " WHERE descricao like :info ORDER BY descricao"; $info = '%'.$info.'%'; break; // filtro por descrição
         }
-
-        // preparou o comando
-        $comando = $conexao->prepare($sql);
-        // vincula valores
+        $parametros = array();
         if ($tipo > 0)
-            $comando->bindValue(':info',$info);
-        // executar o comando
-        $comando->execute();
+            $parametros = [':info'=>$info];
+
+        $comando = Database::executar($sql, $parametros);
         $resultado = $comando->fetchAll();
         return $resultado;
     }
 
-    public function alterar():Bool{
-       //abrir conexão com o banco
-       $conexao = new PDO(DSN, USUARIO, SENHA);
-       // montar o sql/ query
+    public function alterar():Bool{       
        $sql = "UPDATE atividade
                   SET descricao = :descricao, 
                       peso = :peso,
                       anexo = :anexo
                 WHERE id = :id";
-       // preparou o comando
-       $comando = $conexao->prepare($sql);
-       // vincula valores
-       $comando->bindValue(':id',$this->getid());
-       $comando->bindValue(':descricao',$this->getDescricao());
-       $comando->bindValue(':peso',$this->getPeso());
-       $comando->bindValue(':anexo',$this->getAnexo());
-       // executar o comando
-       return $comando->execute();
+         $parametros = array(':id'=>$this->getid(),
+                        ':descricao'=>$this->getDescricao(),
+                        ':peso'=>$this->getPeso(),
+                        ':anexo'=>$this->getAnexo());
+        return Database::executar($sql, $parametros) == true;
     }
 
     public function excluir():Bool{
-        //abrir conexão com o banco
-        $conexao = new PDO(DSN, USUARIO, SENHA);
-        // montar o sql/ query
         $sql = "DELETE FROM atividade
                       WHERE id = :id";
-        // preparou o comando
-        $comando = $conexao->prepare($sql);
-        // vincula valores
-        $comando->bindValue(':id',$this->getid());
-        // executar o comando
-        return $comando->execute();
+        $parametros = array(':id'=>$this->getid());
+        return Database::executar($sql, $parametros) == true;
      }
  
 }
