@@ -2,18 +2,18 @@
 include "../config/config.inc.php";
 
 class Database{
-    public static function abrirConexao(){
+    private static function abrirConexao(){
         try{
             return new PDO(DSN, USUARIO, SENHA);
         }catch(PDOException $e){
             echo "Erro ao conectar com o banco de dados: ".$e->getMessage();
         }
     }
-    public static function preparar($sql){
+    private static function preparar($sql){
         $conexao = self::abrirConexao();
         return $conexao->prepare($sql);
     }
-    public static function vincularParametros($comando,$parametros){
+    private static function vincularParametros($comando,$parametros){
         foreach($parametros as $chave=>$valor)
             $comando->bindValue($chave,$valor);
         return $comando;
