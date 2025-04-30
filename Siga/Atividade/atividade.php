@@ -1,5 +1,5 @@
 <?php
-require_once("Atividade.class.php");
+require_once("../Classes/Atividade.class.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $id = isset($_POST['id'])?$_POST['id']:0;
