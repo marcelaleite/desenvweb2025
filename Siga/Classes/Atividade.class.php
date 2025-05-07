@@ -87,8 +87,13 @@ class Atividade{
             $parametros = [':info'=>$info];
 
         $comando = Database::executar($sql, $parametros);
-        $resultado = $comando->fetchAll();
-        return $resultado;
+        //$resultado = $comando->fetchAll();
+        $atividades = [];
+        while ($registro = $comando->fetch()){
+            $atividade = new Atividade($registro['id'],$registro['descricao'],$registro['peso'],$registro['anexo']);
+            array_push($atividades,$atividade);
+        }
+        return $atividades;
     }
 
     public function alterar():Bool{       

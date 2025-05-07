@@ -15,16 +15,16 @@
         <fieldset>
             <legend>Formulário</legend>
             <label for="id">Id:</label>
-            <input type="text" name="id" readonly value=<?= isset($atividade)?$atividade['id']:0?>>
+            <input type="text" name="id" readonly value=<?= isset($atividade)?$atividade->getId():0?>>
             <label for="descricao">Descricao:</label>
-            <input type="text" name="descricao" value=<?= isset($atividade)?$atividade['descricao']:''?>>
+            <input type="text" name="descricao" value=<?= isset($atividade)?$atividade->getDescricao():''?>>
             <label for="peso">Peso:</label>
-            <input type="text" name="peso" value=<?= isset($atividade)?$atividade['peso']:0?>>
+            <input type="text" name="peso" value=<?= isset($atividade)?$atividade->getPeso():0?>>
             <label for="anexo">Anexo:</label>
-            <input type="text" name="anexo" value=<?= isset($atividade)?$atividade['anexo']:''?>>
+            <input type="text" name="anexo" value=<?= isset($atividade)?$atividade->getAnexo():''?>>
             <button type="submit" name="acao" value="salvar">Salvar</button>
             <button type="submit" name="acao" value="excluir">Excluir</button>
-            <button type="reset" name="acao" value="cancel">Cancelar</button>
+            <input type="reset" value="Cancelar">
         </fieldset>
     </form>
     <!-- Filtro -->
@@ -54,7 +54,7 @@
         <?php
            
             foreach($lista as $atividade){
-                echo "<tr><td><a href='index.php?id={$atividade['id']}'>{$atividade['id']}</a></td><td>{$atividade['descricao']}</td><td>{$atividade['peso']}</td><td>{$atividade['anexo']}</td></tr>";
+                echo "<tr><td><a href='index.php?id={$atividade->getId()}'>{$atividade->getId()}</a></td><td>{$atividade->getDescricao()}</td><td>{$atividade->getPeso()}</td><td>{$atividade->getAnexo()}</td></tr>";
             }
         ?>
     </table>
