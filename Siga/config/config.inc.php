@@ -7,3 +7,5 @@ define('PORT', '3306'); // porta do mysql
 define('DB', 'siga'); // nome do banco
 define('DSN', "mysql:host=".HOST.";port=".PORT.";dbname=".DB.";charset=UTF8");
 
+
+define('PATH_UPLOAD','../');

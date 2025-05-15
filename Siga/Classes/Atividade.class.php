@@ -115,7 +115,6 @@ class Atividade{
         $parametros = array(':id'=>$this->getid());
         return Database::executar($sql, $parametros) == true;
      }
- 
 }
 
 ?>

@@ -1,63 +1,48 @@
 <?php
-    include "atividade.php";
+require_once("../Classes/Atividade.class.php");
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+    $id = isset($_POST['id'])?$_POST['id']:0;
+    $descricao = isset($_POST['descricao'])?$_POST['descricao']:"";
+    $peso = isset($_POST['peso'])?$_POST['peso']:0;
+    //$anexo = isset($_POST['anexo'])?$_POST['anexo']:"";
+    $acao = isset($_POST['acao'])?$_POST['acao']:"";
+
+    $destino_anexo = 'uploads/'.$_FILES['anexo']['name'];
+    move_uploaded_file($_FILES['anexo']['tmp_name'],PATH_UPLOAD.$destino_anexo);
+    $atividade = new Atividade($id,$descricao,$peso,$destino_anexo);
+    if ($acao == 'salvar')
+        if ($id > 0)
+            $resultado = $atividade->alterar();
+        else
+            $resultado = $atividade->inserir();
+    elseif ($acao == 'excluir')
+        $resultado = $atividade->excluir();
+
+    if ($resultado)
+        header("Location: index.php");
+    else
+        echo "Erro ao salvar dados: ". $atividade;
+}elseif ($_SERVER['REQUEST_METHOD'] == 'GET'){
+    $formulario = file_get_contents('form_cad_atividade.html');
+
+    $id = isset($_GET['id'])?$_GET['id']:0;
+    $resultado = Atividade::listar(1,$id);
+    if ($resultado){
+        $atividade = $resultado[0];
+        $formulario = str_replace('{id}',$atividade->getId(),$formulario);
+        $formulario = str_replace('{descricao}',$atividade->getDescricao(),$formulario);
+        $formulario = str_replace('{peso}',$atividade->getPeso(),$formulario);
+        $formulario = str_replace('{anexo}',$atividade->getAnexo(),$formulario);
+    }else{
+        $formulario = str_replace('{id}','',$formulario);
+        $formulario = str_replace('{descricao}','',$formulario);
+        $formulario = str_replace('{peso}','',$formulario);
+        $formulario = str_replace('{anexo}','',$formulario);
+    }
+    print($formulario); 
+    include_once('lista_atividade.php');
+ 
+
+}
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Manutenção de Atividades</h1>
-    <form action="atividade.php" method="post">
-        <fieldset>
-            <legend>Formulário</legend>
-            <label for="id">Id:</label>
-            <input type="text" name="id" readonly value=<?= isset($atividade)?$atividade->getId():0?>>
-            <label for="descricao">Descricao:</label>
-            <input type="text" name="descricao" value=<?= isset($atividade)?$atividade->getDescricao():''?>>
-            <label for="peso">Peso:</label>
-            <input type="text" name="peso" value=<?= isset($atividade)?$atividade->getPeso():0?>>
-            <label for="anexo">Anexo:</label>
-            <input type="text" name="anexo" value=<?= isset($atividade)?$atividade->getAnexo():''?>>
-            <button type="submit" name="acao" value="salvar">Salvar</button>
-            <button type="submit" name="acao" value="excluir">Excluir</button>
-            <input type="reset" value="Cancelar">
-        </fieldset>
-    </form>
-    <!-- Filtro -->
-
-    <form action="index.php" method="GET">
-        <fieldset>
-            <legend>Busca</legend>
-            <label for="busca">Busca</label>
-            <input type="text" name="busca">
-            <label for="tipo">Tipo</label>
-            <select name="tipo">
-                <option value="0">Selecione</option>
-                <option value="1">ID</option>
-                <option value="2">Descrição</option>
-            </select>
-            <button type="submit">Buscar</button>
-        </fieldset>
-    </form>
-
-    <!-- Listagem -->
-    <h1>Listagem de Atividades</h1>
-    <table border="1">
-        <th>Id</th>
-        <th>Descrição</th>
-        <th>Peso</th>
-        <th>Anexo</th>
-        <?php
-           
-            foreach($lista as $atividade){
-                echo "<tr><td><a href='index.php?id={$atividade->getId()}'>{$atividade->getId()}</a></td><td>{$atividade->getDescricao()}</td><td>{$atividade->getPeso()}</td><td>{$atividade->getAnexo()}</td></tr>";
-            }
-        ?>
-    </table>
-
-</body>
-</html>
