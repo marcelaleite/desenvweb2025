@@ -39,6 +39,35 @@ class Usuario{
             $this->email = $email;
     }
 
+
+    public function setSenha($senha){
+        if ($senha == "") // regras para senha
+            throw new Exception('Erro. Informe uma senha válida.');
+        else
+            $this->senha = $senha;
+    }
+
+    public function setMatricula($matricula){
+        if ($matricula == "") // regras para matricula
+            throw new Exception('Erro. Informe uma matricula válida.');
+        else
+            $this->matricula = $matricula;
+    }
+
+    public function setContato($contato){
+        if ($contato == "") // regras para contato
+            throw new Exception('Erro. Informe um contato válida.');
+        else
+            $this->contato = $contato;
+    }
+
+    public function getId(){return $this->id;}
+    public function getNome(){return $this->nome;}
+    public function getEmail(){return $this->email;}
+    public function getSenha(){return $this->senha;}
+    public function getMatricula(){return $this->matricula;}
+    public function getContato(){return $this->contato;}
+
     // método mágico para imprimir uma atividade
     public function __toString():String{  
         $str = "Usuario: $this->getId() - $this->getNome() - $this->getEmail";        
@@ -62,41 +91,45 @@ class Usuario{
     }
 
     public static function listar($tipo=0, $info=''):Array{
-        $sql = "SELECT * FROM atividade";
+        $sql = "SELECT * FROM usuario";
         switch ($tipo){
             case 0: break;
             case 1: $sql .= " WHERE id = :info ORDER BY id"; break; // filtro por ID
-            case 2: $sql .= " WHERE descricao like :info ORDER BY descricao"; $info = '%'.$info.'%'; break; // filtro por descrição
+            case 2: $sql .= " WHERE matricula = :info ORDER BY id"; break; // filtro por matricula
+            case 3: $sql .= " WHERE nome like :info ORDER BY descricao"; $info = '%'.$info.'%'; break; // filtro por descrição
         }
         $parametros = array();
         if ($tipo > 0)
             $parametros = [':info'=>$info];
 
         $comando = Database::executar($sql, $parametros);
-        //$resultado = $comando->fetchAll();
-        $atividades = [];
+        $usuarios = [];
         while ($registro = $comando->fetch()){
-            $atividade = new Atividade($registro['id'],$registro['descricao'],$registro['peso'],$registro['anexo']);
-            array_push($atividades,$atividade);
+            $usuario = new Usuario($registro['id'],$registro['nome'],$registro['email'],$registro['senha'],$registro['matricula'],$registro['contato']);
+            array_push($usuarios,$usuario);
         }
-        return $atividades;
+        return $usuarios;
     }
 
     public function alterar():Bool{       
-       $sql = "UPDATE atividade
-                  SET descricao = :descricao, 
-                      peso = :peso,
-                      anexo = :anexo
+       $sql = "UPDATE usuario
+                  SET nome = :nome, 
+                      email = :email,
+                      senha = :senha,
+                      matricula = :matricula,
+                      contato = :contato
                 WHERE id = :id";
-         $parametros = array(':id'=>$this->getid(),
-                        ':descricao'=>$this->getDescricao(),
-                        ':peso'=>$this->getPeso(),
-                        ':anexo'=>$this->getAnexo());
+         $parametros = array(':id'=>$this->getId(),
+                        ':nome'=>$this->getNome(),
+                        ':email'=>$this->getEmail(),
+                        ':senha'=>$this->getSenha(),
+                        ':matricula'=>$this->getMatricula(),
+                        ':contato'=>$this->getContato());
         return Database::executar($sql, $parametros) == true;
     }
 
     public function excluir():Bool{
-        $sql = "DELETE FROM atividade
+        $sql = "DELETE FROM usuario
                       WHERE id = :id";
         $parametros = array(':id'=>$this->getid());
         return Database::executar($sql, $parametros) == true;
