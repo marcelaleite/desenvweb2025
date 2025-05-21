@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $formulario = str_replace('{peso}',$atividade->getPeso(),$formulario);
         $formulario = str_replace('{anexo}',$atividade->getAnexo(),$formulario);
     }else{
-        $formulario = str_replace('{id}','',$formulario);
+        $formulario = str_replace('{id}',0,$formulario);
         $formulario = str_replace('{descricao}','',$formulario);
         $formulario = str_replace('{peso}','',$formulario);
         $formulario = str_replace('{anexo}','',$formulario);

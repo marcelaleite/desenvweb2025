@@ -33,7 +33,8 @@ class Usuario{
     }
 
     public function setEmail($email){
-        if (($email == "") && !preg_match('\w@\w.\w/i',$email))
+        $padrao = "/^[_a-z0-9-+]+(\.[_a-z0-9-+]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i";
+        if (($email == "") && !preg_match($padrao,strtolower($email)))
             throw new Exception('Erro. Informe um email.');
         else
             $this->email = $email;
@@ -70,14 +71,14 @@ class Usuario{
 
     // método mágico para imprimir uma atividade
     public function __toString():String{  
-        $str = "Usuario: $this->getId() - $this->getNome() - $this->getEmail";        
+        $str = "Usuario: $this->getId() - $this->getNome() - $this->getEmail()";        
         return $str;
     }
 
     // insere uma atividade no banco 
     public function inserir():Bool{
         // montar o sql/ query
-        $sql = "INSERT INTO Usuario 
+        $sql = "INSERT INTO usuario 
                     (nome, email, senha, matricula, contato)
                     VALUES(:nome, :email, :senha, :matricula, :contato)";
         
@@ -95,8 +96,8 @@ class Usuario{
         switch ($tipo){
             case 0: break;
             case 1: $sql .= " WHERE id = :info ORDER BY id"; break; // filtro por ID
-            case 2: $sql .= " WHERE matricula = :info ORDER BY id"; break; // filtro por matricula
-            case 3: $sql .= " WHERE nome like :info ORDER BY descricao"; $info = '%'.$info.'%'; break; // filtro por descrição
+            case 2: $sql .= " WHERE nome like :info ORDER BY nome"; $info = '%'.$info.'%'; break; // filtro por descrição
+            case 3: $sql .= " WHERE matricula = :info ORDER BY matricula"; break; // filtro por matricula
         }
         $parametros = array();
         if ($tipo > 0)

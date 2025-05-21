@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Usuários</title>
+</head>
+<body>
+    <h1>Manutenção de Atividades</h1>
+    <form action="index.php" method="post" enctype="multipart/form-data">
+        <fieldset>
+            <legend>Formulário</legend>
+            <label for="id">Id:</label>
+            <input type="text" name="id" readonly value={id}>
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" value={nome}>
+            <label for="email">E-mail:</label>
+            <input type="email" name="email" value={email}>
+            <label for="senha">Senha:</label>
+            <label for="matricula">Matricula:</label>
+            <input type="text" name="matricula" value={matricula}>
+            <label for="contato">Contato:</label>
+            <input type="phone" placeholder="DDD XXXXX-XXXX" name="contato" value={contato}>
+            <input type="password" name="senha" value={senha}>
+            <button type="submit" name="acao" value="salvar">Salvar</button>
+            <button type="submit" name="acao" value="excluir">Excluir</button>
+            <input type="reset" value="Cancelar">
+        </fieldset>
+    </form>
+</body>
+</html>
