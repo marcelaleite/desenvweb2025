@@ -1,4 +1,7 @@
 <?php
+session_start();
+
+require_once('../valida_login.php');
 require_once("../Classes/Usuario.class.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -45,8 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $formulario = str_replace('{contato}','',$formulario);
     }
     print($formulario); 
-    include_once('lista_usuario.php');
- 
+
 
 }
 ?>

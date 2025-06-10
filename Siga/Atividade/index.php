@@ -1,4 +1,8 @@
 <?php
+session_start();
+
+require_once('../valida_login.php');
+
 require_once("../Classes/Atividade.class.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){

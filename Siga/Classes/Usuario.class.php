@@ -1,12 +1,15 @@
 <?php
+require_once ("Login.class.php");
 require_once ("Database.class.php");
+
 class Usuario{
     private $id;
     private $nome;
-    private $email;
+    private $email; // login
     private $senha;
     private $matricula;
     private $contato;
+    private $login; // objeto login
 
     // construtor da classe
     public function __construct($id,$nome,$email,$senha, $matricula, $contato){
@@ -16,6 +19,11 @@ class Usuario{
         $this->setSenha($senha);
         $this->setMatricula($matricula);
         $this->setContato($contato);
+      //  $this->login->setIdSession(1);
+    }
+
+    public function setLogin(Login $login){
+        $this->login = $login;
     }
 
     public function setId($id){
