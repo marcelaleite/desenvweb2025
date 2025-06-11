@@ -3,18 +3,25 @@ session_start();
 
 require_once('../valida_login.php');
 
+require_once("../Classes/Prova.class.php");
 require_once("../Classes/Atividade.class.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $id = isset($_POST['id'])?$_POST['id']:0;
     $descricao = isset($_POST['descricao'])?$_POST['descricao']:"";
     $peso = isset($_POST['peso'])?$_POST['peso']:0;
-    //$anexo = isset($_POST['anexo'])?$_POST['anexo']:"";
+    $tipo = isset($_POST['tipo'])?$_POST['tipo']:0;
+    $recuperacao = isset($_POST['recuperacao'])?$_POST['recuperacao']:0;
+    $equipe = isset($_POST['equipe'])?$_POST['equipe']:0;
     $acao = isset($_POST['acao'])?$_POST['acao']:"";
 
     $destino_anexo = 'uploads/'.$_FILES['anexo']['name'];
     move_uploaded_file($_FILES['anexo']['tmp_name'],PATH_UPLOAD.$destino_anexo);
-    $atividade = new Atividade($id,$descricao,$peso,$destino_anexo);
+    
+    if ($tipo == 1)
+        $atividade = new Prova($id,$descricao,$peso,$destino_anexo, $recuperacao);
+    else // corrigir abaixo para criar um trabalho em vez de uma atividade
+        $atividade = new Atividade($id,$descricao,$peso,$destino_anexo);
     if ($acao == 'salvar')
         if ($id > 0)
             $resultado = $atividade->alterar();
@@ -38,11 +45,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $formulario = str_replace('{descricao}',$atividade->getDescricao(),$formulario);
         $formulario = str_replace('{peso}',$atividade->getPeso(),$formulario);
         $formulario = str_replace('{anexo}',$atividade->getAnexo(),$formulario);
+        $formulario = str_replace('{tipo}',"",$formulario);
+        $formulario = str_replace('{recuperacao}',"",$formulario);
+        $formulario = str_replace('{equipe}',"",$formulario);
     }else{
         $formulario = str_replace('{id}',0,$formulario);
         $formulario = str_replace('{descricao}','',$formulario);
         $formulario = str_replace('{peso}','',$formulario);
         $formulario = str_replace('{anexo}','',$formulario);
+
+        $formulario = str_replace('{tipo}',"",$formulario);
+        $formulario = str_replace('{recuperacao}',"",$formulario);
+        $formulario = str_replace('{equipe}',"",$formulario);
     }
     print($formulario); 
     include_once('lista_atividade.php');

@@ -90,7 +90,11 @@ class Atividade{
         //$resultado = $comando->fetchAll();
         $atividades = [];
         while ($registro = $comando->fetch()){
-            $atividade = new Atividade($registro['id'],$registro['descricao'],$registro['peso'],$registro['anexo']);
+            // alterar para criar tipos de atividades diferentes (prova ou trabalho)
+            if ($registro['tipo'] == 1)
+                $atividade = new Prova($registro['id'],$registro['descricao'],$registro['peso'],$registro['anexo'], $registro['recuperacao']);
+            else
+                $atividade = new Atividade($registro['id'],$registro['descricao'],$registro['peso'],$registro['anexo']);
             array_push($atividades,$atividade);
         }
         return $atividades;

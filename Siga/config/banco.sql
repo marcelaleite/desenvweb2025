@@ -7,15 +7,16 @@ descricao varchar(250),
 peso decimal(16,2),
 anexo varchar(250) );
 
-
-create table usuario(
-id int auto_increment primary key,
-nome varchar(250),
-email varchar(250),
-senha varchar(250),
-matricula varchar(250),
-contato varchar(250) );
-
-
-select * from atividade;
+select * 
+  from atividade
+ where descricao like '%prova%';
 -- script de criação do banco de dados
+
+alter table atividade
+add column tipo int,
+add column recuperacao decimal(16,2),
+add column equipe varchar(250);
+
+update atividade 
+set tipo = 1, recuperacao = 7
+where id = 10;
