@@ -14,10 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             header("Location: ../index.php");
 
         }else{
-            header("Location: index.php?auth_erro=Usuário ou senha incorretos.");
+            header("Location: index.html?auth_erro=Usuário ou senha incorretos.");
         }
     }catch (Exception $e){
-        header("Location: index.php?auth_erro=".$e->getMessage());
+        header("Location: index.html?auth_erro=".$e->getMessage());
 
     }
 }
