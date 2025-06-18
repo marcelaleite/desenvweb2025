@@ -4,7 +4,6 @@ require_once("Atividade.class.php");
 class Prova extends Atividade{
     private $recuperacao;
 
-
     public function __construct($id,$desc,$peso,$anexo,$recuperacao){
         parent::__construct($id,$desc,$peso,$anexo);
         $this->setRecuperacao($recuperacao);
@@ -46,6 +45,6 @@ class Prova extends Atividade{
          return Database::executar($sql, $parametros) == true;
      }
 
-
+   
 
 }

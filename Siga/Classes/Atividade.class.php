@@ -1,6 +1,6 @@
 <?php
 require_once ("Database.class.php");
-class Atividade{
+abstract class Atividade{
     private $id;
     private $descricao;
     private $peso;
@@ -62,18 +62,7 @@ class Atividade{
     }
 
     // insere uma atividade no banco 
-    public function inserir():Bool{
-        // montar o sql/ query
-        $sql = "INSERT INTO atividade 
-                    (descricao, peso, anexo)
-                    VALUES(:descricao, :peso, :anexo)";
-        
-        $parametros = array(':descricao'=>$this->getDescricao(),
-                            ':peso'=>$this->getPeso(),
-                            ':anexo'=>$this->getAnexo());
-        
-        return Database::executar($sql, $parametros) == true;
-    }
+    abstract public function inserir():Bool;
 
     public static function listar($tipo=0, $info=''):Array{
         $sql = "SELECT * FROM atividade";
@@ -94,7 +83,7 @@ class Atividade{
             if ($registro['tipo'] == 1)
                 $atividade = new Prova($registro['id'],$registro['descricao'],$registro['peso'],$registro['anexo'], $registro['recuperacao']);
             else
-                $atividade = new Atividade($registro['id'],$registro['descricao'],$registro['peso'],$registro['anexo']);
+                $atividade = new Trabalho($registro['id'],$registro['descricao'],$registro['peso'],$registro['anexo']);
             array_push($atividades,$atividade);
         }
         return $atividades;
