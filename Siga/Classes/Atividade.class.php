@@ -1,17 +1,23 @@
 <?php
 require_once ("Database.class.php");
-abstract class Atividade{
+require_once ("Disciplina.class.php");
+
+abstract class Atividade {
     private $id;
     private $descricao;
     private $peso;
     private $anexo;
+    private $idDisciplina;
+    private $tipo;
 
     // construtor da classe
-    public function __construct($id,$desc,$peso,$anexo){
-        $this->id = $id;
-        $this->descricao = $desc;
-        $this->peso = $peso;
-        $this->anexo = $anexo;
+    public function __construct($id,$desc,$peso,$anexo, $tipo, $idDisciplina){
+        $this->setId($id);
+        $this->setDescricao($desc);
+        $this->setPeso($peso);
+        $this->setAnexo($anexo);
+        $this->setIdDisciplina($idDisciplina);
+        $this->setTipo($tipo);
     }
 
     // função / interface para aterar e ler
@@ -24,9 +30,23 @@ abstract class Atividade{
     // cada atributo tem um método set para alterar seu valor
     public function setId($id){
         if ($id < 0)
-            throw new Exception("Erro, a ID deve ser maior que 0!");
+            throw new Exception("Erro, o ID deve ser maior que 0!");
         else
             $this->id = $id;
+    }
+
+    public function setIdDisciplina($idDisciplina){
+        if ($idDisciplina < 0)
+            throw new Exception("Erro, o ID da Disciplina deve ser maior que 0!");
+        else
+            $this->idDisciplina = $idDisciplina;
+    }
+
+    public function setTipo($tipo){
+        if ($tipo < 0)
+            throw new Exception("Erro, o tipo deve ser maior que 0!");
+        else
+            $this->tipo = $tipo;
     }
 
     public function setPeso($peso){
@@ -52,12 +72,20 @@ abstract class Atividade{
     public function getAnexo(): String{
         return $this->anexo;
     }
+    public function getIdDisciplina(): int{
+        return isset($this->idDisciplina)?$this->idDisciplina:0;
+    }
+    public function getTipo(): int{
+        return isset($this->tipo)?$this->tipo:0;
+    }
 
     // método mágico para imprimir uma atividade
     public function __toString():String{  
-        $str = "Atuvidade: $this->id - $this->descricao
-                 - Peso: $this->peso
-                 - Anexo: $this->anexo";        
+        $str = "Atuvidade: $this->getId() - $this->getDescricao()
+                 - Peso: $this->getPeso()
+                 - Anexo: $this->getAnexo()
+                 - IdDisciplina: $this->getIdDisciplina()
+                 - Tipo: $this->getTipo()";        
         return $str;
     }
 
@@ -79,28 +107,16 @@ abstract class Atividade{
         //$resultado = $comando->fetchAll();
         $atividades = [];
         while ($registro = $comando->fetch()){
-            // alterar para criar tipos de atividades diferentes (prova ou trabalho)
             if ($registro['tipo'] == 1)
-                $atividade = new Prova($registro['id'],$registro['descricao'],$registro['peso'],$registro['anexo'], $registro['recuperacao']);
+                $atividade = new Prova($registro['id'],$registro['descricao'],$registro['peso'],$registro['anexo'], $registro['recuperacao'],$registro['idDisciplina']);
             else
-                $atividade = new Trabalho($registro['id'],$registro['descricao'],$registro['peso'],$registro['anexo']);
+                $atividade = new Trabalho($registro['id'],$registro['descricao'],$registro['peso'],$registro['anexo'],$registro['equipe'],$registro['idDisciplina']);
             array_push($atividades,$atividade);
         }
         return $atividades;
     }
 
-    public function alterar():Bool{       
-       $sql = "UPDATE atividade
-                  SET descricao = :descricao, 
-                      peso = :peso,
-                      anexo = :anexo
-                WHERE id = :id";
-         $parametros = array(':id'=>$this->getid(),
-                        ':descricao'=>$this->getDescricao(),
-                        ':peso'=>$this->getPeso(),
-                        ':anexo'=>$this->getAnexo());
-        return Database::executar($sql, $parametros) == true;
-    }
+    abstract public function alterar():Bool;
 
     public function excluir():Bool{
         $sql = "DELETE FROM atividade

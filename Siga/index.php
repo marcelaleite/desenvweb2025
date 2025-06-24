@@ -15,6 +15,8 @@ session_start();
         <li><a href="Atividade/lista_atividade.php">Lista Atividade</a></li>
         <li><a href="Usuario/">Usuário</a></li>
         <li><a href="Usuario/lista_usuario.php">Lista Usuários</a></li>
+        <li><a href="Disciplina/">Disciplina</a></li>
+        <li><a href="Disciplina/lista_disciplina.php">Lista Disciplinas</a></li>
     </ul>
   
     <form action="Login/logout.php" method="post">

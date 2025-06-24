@@ -17,6 +17,23 @@ add column tipo int,
 add column recuperacao decimal(16,2),
 add column equipe varchar(250);
 
+
+
+
+create table disciplina
+(id int primary key auto_increment,
+nome varchar(250));
+
+alter table atividade
+add column idDisciplina int,
+add foreign key fkDisciplina (idDisciplina) references disciplina (id);
+
+
+
+
+
+
+
 update atividade 
 set tipo = 1, recuperacao = 7
 where id = 10;

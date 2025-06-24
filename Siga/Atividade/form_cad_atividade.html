@@ -7,9 +7,12 @@
 </head>
 <body>
     <h1>Manutenção de Atividades</h1>
+    Adicionar atividades
     <form action="index.php" method="post" enctype="multipart/form-data">
         <fieldset>
             <legend>Formulário</legend>
+            <label for="idDisciplina">Disciplina:</label>
+            {disciplina}
             <label for="id">Id:</label>
             <input type="text" name="id" readonly value={id}>
             <label for="descricao">Descricao:</label>

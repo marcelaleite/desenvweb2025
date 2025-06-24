@@ -1,34 +1,34 @@
 <?php
 require_once("Atividade.class.php");
 
-class Prova extends Atividade{
-    private $recuperacao;
+class Trabalho extends Atividade{
+    private $equipe;
 
-    public function __construct($id,$desc,$peso,$anexo,$recuperacao,$idDisciplina){
+    public function __construct($id,$desc,$peso,$anexo,$equipe,$idDisciplina){
         parent::__construct($id,$desc,$peso,$anexo,PROVA,$idDisciplina);
-        $this->setRecuperacao($recuperacao);
+        $this->setEquipe($equipe);
     }
 
-    public function setRecuperacao($recuperacao){
-        $this->recuperacao = $recuperacao;
+    public function setEquipe($equipe){
+        $this->equipe = $equipe;
     }
 
 
-    public function getRecuperacao() {return $this->recuperacao;}
+    public function getEquipe() {return $this->equipe;}
 
     // sobrescrita de método 
     public function inserir():Bool{
             // montar o sql/ query
             $sql = "INSERT INTO atividade 
-                        (descricao, peso, anexo, tipo, recuperacao, idDisciplina)
-                        VALUES(:descricao, :peso, :anexo, :tipo, :rec, :idDisciplina)";
+                        (descricao, peso, anexo, tipo, equipe, idDisciplina)
+                        VALUES(:descricao, :peso, :anexo, :tipo, :equipe, :idDisciplina)";
             
             $parametros = array(':descricao'=>$this->getDescricao(),
                                 ':peso'=>$this->getPeso(),
                                 ':anexo'=>$this->getAnexo(),
                                 ':tipo' => $this->getTipo(),
-                                ':rec' => $this->getRecuperacao(),
-                                ':idDisciplina' => $this->getIdDisciplina());
+                                ':idDisciplina' => $this->getIdDisciplina(),
+                                ':equipe' => $this->getEquipe());
             
             return Database::executar($sql, $parametros) == true;
     }
@@ -38,16 +38,17 @@ class Prova extends Atividade{
                    SET descricao = :descricao, 
                        peso = :peso,
                        anexo = :anexo,
-                       recuperacao = :recuperacao,
-                       idDisciplina = : i
-                       dDisciplina
+                       equipe = :equipe,
+                       tipo = :tipo,
+                       idDisciplina = :idDisciplina
                  WHERE id = :id";
           $parametros = array(':id'=>$this->getid(),
                          ':descricao'=>$this->getDescricao(),
                          ':peso'=>$this->getPeso(),
                          ':anexo'=>$this->getAnexo(),
-                         ':recuperacao'=>$this->getRecuperacao(),
-                         ':idDisciplina'=>$this->getIdDisciplina());
+                         ':tipo' => $this->getTipo(),
+                         ':idDisciplina' => $this->getIdDisciplina(),
+                         ':equipe'=>$this->getEquipe());
          return Database::executar($sql, $parametros) == true;
      }
 

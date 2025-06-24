@@ -18,7 +18,7 @@ class Login{
                 if ($dados){
                     return new Usuario($dados['id'],
                                            $dados['nome'],
-                                           email: $dados['email'],
+                                           $dados['email'],
                                            $dados['senha'],
                                            $dados['matricula'],
                                            $dados['contato']);

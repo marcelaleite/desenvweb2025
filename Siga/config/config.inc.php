@@ -9,3 +9,6 @@ define('DSN', "mysql:host=".HOST.";port=".PORT.";dbname=".DB.";charset=UTF8");
 
 
 define('PATH_UPLOAD','../');
+define('PROVA','1');
+define('TRABALHO','2');
+define('SEMINÁRIO','3');
