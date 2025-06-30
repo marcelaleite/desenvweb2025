@@ -82,9 +82,66 @@ class Usuario{
         $str = "Usuario: $this->getId() - $this->getNome() - $this->getEmail()";        
         return $str;
     }
+    
+    public function inserir():Bool{
+        $sql = "INSERT INTO Usuario 
+                    (nome, email, senha, matricula, contato)
+                    VALUES(:nome, :email, :senha, :matricula, :contato)";
+        
+        $parametros = array(':nome'=>$this->getNome(),
+                            ':email'=>$this->getEmail(),
+                            ':senha'=>$this->getSenha(),
+                            ':matricula'=>$this->getMatricula(),
+                            ':contato'=>$this->getContato());
+        
+        return Database::executar($sql, $parametros) == true;
+    }
 
-    // insere uma atividade no banco 
-    $atividade-
+    public static function listar($tipo=0, $info=''):Array{
+        $sql = "SELECT * FROM usuario";
+        switch ($tipo){
+            case 0: break;
+            case 1: $sql .= " WHERE id = :info ORDER BY id"; break; // filtro por ID
+            case 2: $sql .= " WHERE matricula = :info ORDER BY id"; break; // filtro por matricula
+            case 3: $sql .= " WHERE nome like :info ORDER BY descricao"; $info = '%'.$info.'%'; break; // filtro por descrição
+        }
+        $parametros = array();
+        if ($tipo > 0)
+            $parametros = [':info'=>$info];
+
+        $comando = Database::executar($sql, $parametros);
+        $usuarios = [];
+        while ($registro = $comando->fetch()){
+            $usuario = new Usuario($registro['id'],$registro['nome'],$registro['email'],$registro['senha'],$registro['matricula'],$registro['contato']);
+            array_push($usuarios,$usuario);
+        }
+        return $usuarios;
+    }
+
+    public function alterar():Bool{       
+    $sql = "UPDATE usuario
+                SET nome = :nome, 
+                    email = :email,
+                    senha = :senha,
+                    matricula = :matricula,
+                    contato = :contato
+                WHERE id = :id";
+        $parametros = array(':id'=>$this->getId(),
+                        ':nome'=>$this->getNome(),
+                        ':email'=>$this->getEmail(),
+                        ':senha'=>$this->getSenha(),
+                        ':matricula'=>$this->getMatricula(),
+                        ':contato'=>$this->getContato());
+        return Database::executar($sql, $parametros) == true;
+    }
+
+    public function excluir():Bool{
+        $sql = "DELETE FROM usuario
+                    WHERE id = :id";
+        $parametros = array(':id'=>$this->getid());
+        return Database::executar($sql, $parametros) == true;
+    }
+
 }
 
 
