@@ -2,10 +2,7 @@
 require_once ("Usuario.class.php");
 require_once ("Database.class.php");
 class Login{
-    private $idSession;
-    public function setIdSession($session){
-        $this->idSession = $session;
-    }
+
     public static function efetuarLogin($login, $senha){
         if ($login != ""  && $senha != ""){
             $sql = "SELECT * FROM usuario
