@@ -2,7 +2,7 @@
 require_once ("Database.class.php");
 require_once ("Disciplina.class.php");
 
-abstract class Atividade {
+abstract class Atividade{
     private $id;
     private $descricao;
     private $peso;
@@ -11,13 +11,13 @@ abstract class Atividade {
     private $tipo;
 
     // construtor da classe
-    public function __construct($id,$desc,$peso,$anexo, $tipo, $idDisciplina){
+    public function __construct($id,$desc,$peso,$anexo, $idDisciplina){
         $this->setId($id);
         $this->setDescricao($desc);
         $this->setPeso($peso);
         $this->setAnexo($anexo);
         $this->setIdDisciplina($idDisciplina);
-        $this->setTipo($tipo);
+        $this->setTipo(get_class($this)); // pega de acordo com o tipo de objeto
     }
 
     // função / interface para aterar e ler
@@ -36,10 +36,10 @@ abstract class Atividade {
     }
 
     public function setIdDisciplina($idDisciplina){
-        if ($idDisciplina < 0)
-            throw new Exception("Erro, o ID da Disciplina deve ser maior que 0!");
-        else
+        if ($idDisciplina > 0)
             $this->idDisciplina = $idDisciplina;
+        else
+            throw new Exception("Erro, deve ser informada uma Disciplina válida.");
     }
 
     public function setTipo($tipo){
@@ -75,8 +75,8 @@ abstract class Atividade {
     public function getIdDisciplina(): int{
         return isset($this->idDisciplina)?$this->idDisciplina:0;
     }
-    public function getTipo(): int{
-        return isset($this->tipo)?$this->tipo:0;
+    public function getTipo(): String{
+        return isset($this->tipo)?$this->tipo:"";
     }
 
     // método mágico para imprimir uma atividade
@@ -107,10 +107,11 @@ abstract class Atividade {
         //$resultado = $comando->fetchAll();
         $atividades = [];
         while ($registro = $comando->fetch()){
-            if ($registro['tipo'] == 1)
-                $atividade = new Prova($registro['id'],$registro['descricao'],$registro['peso'],$registro['anexo'], $registro['recuperacao'],$registro['idDisciplina']);
+            if ($registro['tipo'] == 'Prova')
+               $atividade = new Prova($registro['id'],$registro['descricao'],$registro['peso'],$registro['anexo'], $registro['recuperacao'],$registro['idDisciplina']);
             else
-                $atividade = new Trabalho($registro['id'],$registro['descricao'],$registro['peso'],$registro['anexo'],$registro['equipe'],$registro['idDisciplina']);
+               $atividade = new Trabalho($registro['id'],$registro['descricao'],$registro['peso'],$registro['anexo'],$registro['equipe'],$registro['idDisciplina']);
+            
             array_push($atividades,$atividade);
         }
         return $atividades;

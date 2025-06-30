@@ -32,8 +32,14 @@ add foreign key fkDisciplina (idDisciplina) references disciplina (id);
 
 
 
-
+alter table atividade
+modify column tipo varchar(10);
 
 update atividade 
 set tipo = 1, recuperacao = 7
 where id = 10;
+
+desc atividade;
+
+select * from  atividade;
+

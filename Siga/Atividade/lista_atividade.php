@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-require_once('../valida_login.php');
-
-    require_once("../Classes/Prova.class.php");
+    require_once('../valida_login.php');
     require_once("../Classes/Atividade.class.php");
+    require_once ("../Classes/Trabalho.class.php");
+    require_once("../Classes/Prova.class.php");
     $busca = isset($_GET['busca'])?$_GET['busca']:0;
     $tipo = isset($_GET['tipo'])?$_GET['tipo']:0;
    

@@ -1,11 +1,11 @@
 <?php
-require_once("Atividade.class.php");
+require_once "Atividade.class.php";
 
 class Trabalho extends Atividade{
     private $equipe;
 
     public function __construct($id,$desc,$peso,$anexo,$equipe,$idDisciplina){
-        parent::__construct($id,$desc,$peso,$anexo,PROVA,$idDisciplina);
+        parent::__construct($id,$desc,$peso,$anexo,$idDisciplina);
         $this->setEquipe($equipe);
     }
 
