@@ -43,3 +43,13 @@ desc atividade;
 
 select * from  atividade;
 
+
+show create table usuario;
+
+
+CREATE TABLE usuario
+  (id int  primary key AUTO_INCREMENT,
+   nome varchar(250) ,
+   email varchar(100) ,
+   senha varchar(20) ,
+   tipo varchar(100))
