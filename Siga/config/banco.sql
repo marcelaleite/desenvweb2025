@@ -47,9 +47,10 @@ select * from  atividade;
 show create table usuario;
 
 
-CREATE TABLE usuario
-  (id int  primary key AUTO_INCREMENT,
-   nome varchar(250) ,
-   email varchar(100) ,
-   senha varchar(20) ,
-   tipo varchar(100))
+CREATE TABLE usuario (id int primary key AUTO_INCREMENT,
+             nome varchar(250) ,
+             email varchar(250) ,
+             senha varchar(250) ,
+             matricula varchar(250) ,
+             contato varchar(250),
+             tipo varchar(100))
