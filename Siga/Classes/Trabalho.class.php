@@ -1,5 +1,5 @@
 <?php
-require_once "Atividade.class.php";
+
 
 class Trabalho extends Atividade{
     private $equipe;

@@ -2,7 +2,7 @@
 session_start();
 
 require_once('../valida_login.php');
-require_once("../Classes/Usuario.class.php");
+require_once("../autoload.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $id = isset($_POST['id'])?$_POST['id']:0;

@@ -1,6 +1,5 @@
 <?php
-require_once ("Database.class.php");
-require_once ("Disciplina.class.php");
+namespace Siga\Atividade;
 
 abstract class Atividade{
     private $id;

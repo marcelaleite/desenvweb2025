@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once("../Classes/Login.class.php");
+require_once("../autoload.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $login = isset($_POST['login'])?$_POST['login']:"";

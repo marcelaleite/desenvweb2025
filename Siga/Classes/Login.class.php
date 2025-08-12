@@ -1,6 +1,5 @@
 <?php
-require_once ("Usuario.class.php");
-require_once ("Database.class.php");
+
 class Login{
 
     public static function efetuarLogin($login, $senha){

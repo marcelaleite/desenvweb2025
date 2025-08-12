@@ -3,11 +3,13 @@ session_start();
 
 require_once('../valida_login.php');
 
-require_once("../Classes/Atividade.class.php");
-require_once("../Classes/Prova.class.php");
-require_once("../Classes/Trabalho.class.php");
-require_once("../Classes/Form.class.php");
+require_once("../autoload.php");
 
+
+use Siga\Atividade\Atividade as AT;
+
+
+$teste = new AT();
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $id = isset($_POST['id'])?$_POST['id']:0;
     $descricao = isset($_POST['descricao'])?$_POST['descricao']:"";

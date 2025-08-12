@@ -1,6 +1,5 @@
 <?php
 
-require_once "Database.class.php";
 require_once ("Formulario.interface.php");
 
 class Disciplina implements Formulario{

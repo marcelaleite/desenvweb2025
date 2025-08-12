@@ -1,5 +1,4 @@
-<?php
-require_once "Atividade.class.php";
+<?php;
 
 class Prova extends Atividade{
     private $recuperacao;
